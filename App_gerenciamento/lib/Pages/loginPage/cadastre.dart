@@ -128,7 +128,14 @@ class _cadastreState extends State<cadastre> {
       ),
     )
         .then((value) {
-      print(value.body);
+      _controller.text = '';
     });
+    final snackBar = SnackBar(
+        content: Text('A palavra foi gravada com sucesso!'),
+        action: SnackBarAction(
+            label: 'Dispensar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            }));
   }
 }
