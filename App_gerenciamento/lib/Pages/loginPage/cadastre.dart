@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/provider/users.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class cadastre extends StatefulWidget {
   @override
@@ -11,6 +14,9 @@ class cadastre extends StatefulWidget {
 class _cadastreState extends State<cadastre> {
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
+  Uri url = Uri.https(
+      'app-gerenciamento-32e98-default-rtdb.firebaseio.com', '/words.json');
+  TextEditingController _controller = TextEditingController();
 
   void _loadFormData(User user) {
     _formData['matricula'] = user.id;
@@ -36,6 +42,7 @@ class _cadastreState extends State<cadastre> {
           actions: <Widget>[
             IconButton(
                 onPressed: () {
+                  addStringToBack();
                   final isValid = _form.currentState?.validate();
                   if (isValid == true) {
                     _form.currentState?.save();
@@ -63,6 +70,7 @@ class _cadastreState extends State<cadastre> {
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  controller: _controller,
                   initialValue: _formData['name'],
                   decoration: InputDecoration(labelText: 'Nome'),
                   validator: (value) {
@@ -109,5 +117,18 @@ class _cadastreState extends State<cadastre> {
             ),
           ),
         ));
+  }
+
+  void addStringToBack() {
+    http
+        .post(
+      url,
+      body: json.encode(
+        {'word': _controller.text},
+      ),
+    )
+        .then((value) {
+      print(value.body);
+    });
   }
 }
