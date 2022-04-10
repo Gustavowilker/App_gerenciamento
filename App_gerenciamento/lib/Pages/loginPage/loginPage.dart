@@ -15,7 +15,7 @@ class _loginPageState extends State<loginPage> {
   String password = '';
 
   Widget _body() {
-    return Column(    
+    return Column(
       children: [
         SingleChildScrollView(
           child: SizedBox(
@@ -77,7 +77,7 @@ class _loginPageState extends State<loginPage> {
                                 print('Login inválido');
                               }
                             },
-                            child: Container(
+                            child: const SizedBox(
                               width: double.infinity,
                               child: Text(
                                 'Entrar',
