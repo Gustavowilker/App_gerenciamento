@@ -15,10 +15,10 @@ class _loginPageState extends State<loginPage> {
   String password = '';
 
   Widget _body() {
-    return Column(
-      children: [
-        SingleChildScrollView(
-          child: SizedBox(
+    return SingleChildScrollView(
+      child: Column(        
+        children: [
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Padding(
@@ -116,8 +116,8 @@ class _loginPageState extends State<loginPage> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
