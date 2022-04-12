@@ -2,7 +2,7 @@
 
 import 'package:flutter_application_1/models/user.dart';
 
-const DUMMY_USERS = {
+  final DUMMY_USERS = {
   '1':  User(
       id: '1',
       name: 'Gustavo',

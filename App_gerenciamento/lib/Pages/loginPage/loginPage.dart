@@ -33,7 +33,7 @@ class _loginPageState extends State<loginPage> {
                   ),
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
                           TextField(
@@ -62,26 +62,32 @@ class _loginPageState extends State<loginPage> {
                           SizedBox(
                             height: 15,
                           ),
-                          RaisedButton(
-                            color: Color.fromARGB(255, 84, 163, 228),
-                            textColor: Colors.white,
-                            onPressed: () {
-                              if (email == 'gustavo' && password == '123') {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home');
-                              } else if (email == 'gustavo wilker' &&
-                                  password == '1234') {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/performance');
-                              } else {
-                                print('Login inválido');
-                              }
-                            },
-                            child: const SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                'Entrar',
-                                textAlign: TextAlign.center,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                              color: Color.fromARGB(255, 84, 163, 228),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                if (email == 'gustavo' && password == '123') {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home');
+                                } else if (email == 'gustavo wilker' &&
+                                    password == '1234') {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/performance');
+                                } else {
+                                  print('Login inválido');
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(7),
+                                child: const SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    'Entrar',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

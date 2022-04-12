@@ -25,9 +25,9 @@ class Users with ChangeNotifier {
     }
 
     if (user.id != null &&
-        user.id.trim().isNotEmpty &&
+        user.id.toString().trim().isNotEmpty &&
         _itens.containsKey(user.id)) {
-      _itens.update(user.id, (_) => user);
+      _itens.update(user.id.toString(), (_) => user);
       notifyListeners();
     } else {
       _itens.putIfAbsent(

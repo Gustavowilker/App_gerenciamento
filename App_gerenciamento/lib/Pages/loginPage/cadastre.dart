@@ -19,13 +19,13 @@ class _cadastreState extends State<cadastre> {
   TextEditingController _controller = TextEditingController();
 
   void _loadFormData(User user) {
-    _formData['matricula'] = user.id;
-    _formData['name'] = user.name;
-    _formData['cpf'] = user.cpf;
-    _formData['email'] = user.email;
-    _formData['password'] = user.password;
-    _formData['funcao'] = user.funcao;
-    _formData['avatarUrl'] = user.avatarUrl;
+    _formData['matricula'] = user.id.toString();
+    _formData['name'] = user.name.toString();
+    _formData['cpf'] = user.cpf.toString();
+    _formData['email'] = user.email.toString();
+    _formData['password'] = user.password.toString();
+    _formData['funcao'] = user.funcao.toString();
+    _formData['avatarUrl'] = user.avatarUrl.toString();
   }
 
   @override
@@ -48,13 +48,14 @@ class _cadastreState extends State<cadastre> {
                     _form.currentState?.save();
                     Provider.of<Users>(context, listen: false).put(
                       User(
-                          id: _formData['matricula'].toString(),
-                          name: _formData['name'].toString(),
-                          email: _formData['email'].toString(),
-                          cpf: _formData['cpf'].toString(),
-                          funcao: _formData['funcao'].toString(),
-                          password: _formData['password'].toString(),
-                          avatarUrl: _formData['avatarUrl'].toString()),
+                        id: _formData['matricula'].toString(),
+                        name: _formData['name'].toString(),
+                        email: _formData['email'].toString(),
+                        cpf: _formData['cpf'].toString(),
+                        funcao: _formData['funcao'].toString(),
+                        password: _formData['password'].toString(),
+                        avatarUrl: _formData['avatarUrl'].toString()
+                      ),
                     );
 
                     Navigator.of(context).pop();
@@ -70,7 +71,6 @@ class _cadastreState extends State<cadastre> {
             child: Column(
               children: <Widget>[
                 TextFormField(
-                  controller: _controller,
                   initialValue: _formData['name'],
                   decoration: InputDecoration(labelText: 'Nome'),
                   validator: (value) {

@@ -64,6 +64,10 @@ flutter:
   assets:
    - assets/imagens/LOGO-HORIZONTAL-01.png
    - assets/imagens/papelParede_login.jpg
+   - assets/imagens/icon_gustavo.png
+   - assets/imagens/icon_leonardo.png
+   - assets/imagens/icon_guilherme.png
+   - assets/imagens/icon_mary.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

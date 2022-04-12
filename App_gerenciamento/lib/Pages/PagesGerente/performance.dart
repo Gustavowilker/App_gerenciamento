@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/avisoGerentePage.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/page_usuarios.dart';
+import 'package:flutter_application_1/Pages/PagesGerente/tarefas_gerente.dart';
+import 'package:flutter_application_1/Pages/PagesUser/Tarefas_page.dart';
 import 'package:flutter_application_1/Pages/loginPage/loginPage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -60,9 +62,14 @@ class _performancePageState extends State<performancePage> {
                   }));
                 },
               ),
-              const ListTile(
+              ListTile(
                 leading: Icon(Icons.app_registration_outlined),
                 title: Text('Tarefas'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const TarefasGerente();
+                  }));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.accessibility_outlined),
