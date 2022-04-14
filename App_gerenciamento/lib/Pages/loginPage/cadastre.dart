@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/provider/users.dart';
+import 'package:flutter_application_1/sing_up/sign_up_service.dart';
+import 'package:flutter_application_1/values/preferences_key.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class cadastre extends StatefulWidget {
   @override
@@ -12,11 +15,19 @@ class cadastre extends StatefulWidget {
 }
 
 class _cadastreState extends State<cadastre> {
+  TextEditingController _nameInputController = TextEditingController();
+  TextEditingController _emailInputController = TextEditingController();
+  TextEditingController _cpfInputController = TextEditingController();
+  TextEditingController _idInputController = TextEditingController();
+  TextEditingController _funcaoInputController = TextEditingController();
+  TextEditingController _passwordInputController = TextEditingController();
+  TextEditingController _avatarInputController = TextEditingController();
+  TextEditingController _confirmInputController = TextEditingController();
+
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
   Uri url = Uri.https(
       'app-gerenciamento-32e98-default-rtdb.firebaseio.com', '/words.json');
-  TextEditingController _controller = TextEditingController();
 
   void _loadFormData(User user) {
     _formData['matricula'] = user.id.toString();
@@ -42,20 +53,19 @@ class _cadastreState extends State<cadastre> {
           actions: <Widget>[
             IconButton(
                 onPressed: () {
-                  addStringToBack();
+                  _doSignUp();
                   final isValid = _form.currentState?.validate();
                   if (isValid == true) {
                     _form.currentState?.save();
                     Provider.of<Users>(context, listen: false).put(
                       User(
-                        id: _formData['matricula'].toString(),
-                        name: _formData['name'].toString(),
-                        email: _formData['email'].toString(),
-                        cpf: _formData['cpf'].toString(),
-                        funcao: _formData['funcao'].toString(),
-                        password: _formData['password'].toString(),
-                        avatarUrl: _formData['avatarUrl'].toString()
-                      ),
+                          id: _formData['matricula'],
+                          name: _formData['name'],
+                          email: _formData['email'],
+                          cpf: _formData['cpf'],
+                          funcao: _formData['funcao'],
+                          password: _formData['password'],
+                          avatarUrl: _formData['avatarUrl']),
                     );
 
                     Navigator.of(context).pop();
@@ -64,78 +74,142 @@ class _cadastreState extends State<cadastre> {
                 icon: Icon(Icons.save))
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.all(15),
-          child: Form(
-            key: _form,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  initialValue: _formData['name'],
-                  decoration: InputDecoration(labelText: 'Nome'),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Nome inválido';
-                    } else if (value.trim().length < 3) {
-                      return 'Nome muito pequeno. Mínimo 3 letras';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _formData['name'] = value.toString(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.all(8)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _nameInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'Nome', border: OutlineInputBorder()),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Nome inválido';
+                            } else if (value.trim().length < 3) {
+                              return 'Nome muito pequeno. Mínimo 3 letras';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) =>
+                              _formData['name'] = _nameInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _cpfInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'CPF', border: OutlineInputBorder()),
+                          onSaved: (value) =>
+                              _formData['cpf'] = _cpfInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _idInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'Nº de Matrícula',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) =>
+                              _formData['matricula'] = _idInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _emailInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'E-mail',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) =>
+                              _formData['email'] = _emailInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Senha',
+                            border: OutlineInputBorder(),
+                          ),
+                          controller: _passwordInputController,
+                          validator: (value) {
+                            if (_passwordInputController.text.length < 6) {
+                              return 'A senha deve ter pelo menos 6 caracteres';
+                            }
+                            return null;
+                          },
+                          obscureText: true,
+                          onSaved: (value) => _formData['password'] =
+                              _passwordInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _funcaoInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'Função',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) =>
+                              _formData['funcao'] = _funcaoInputController.text,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: _avatarInputController,
+                          decoration: const InputDecoration(
+                              labelText: 'Url do Avatar',
+                              border: OutlineInputBorder()),
+                          onSaved: (value) => _formData['avatarUrl'] =
+                              _avatarInputController.text,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                TextFormField(
-                  initialValue: _formData['cpf'],
-                  decoration: InputDecoration(labelText: 'CPF'),
-                  onSaved: (value) => _formData['cpf'] = value.toString(),
-                ),
-                TextFormField(
-                  initialValue: _formData['matricula'],
-                  decoration: InputDecoration(labelText: 'Nº de Matrícula'),
-                  onSaved: (value) => _formData['matricula'] = value.toString(),
-                ),
-                TextFormField(
-                  initialValue: _formData['email'],
-                  decoration: InputDecoration(labelText: 'E-mail'),
-                  onSaved: (value) => _formData['email'] = value.toString(),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Senha'),
-                  obscureText: true,
-                  onSaved: (value) => _formData['password'] = value.toString(),
-                ),
-                TextFormField(
-                  initialValue: _formData['funcao'],
-                  decoration: InputDecoration(labelText: 'Função'),
-                  onSaved: (value) => _formData['funcao'] = value.toString(),
-                ),
-                TextFormField(
-                  initialValue: _formData['avatarUrl'],
-                  decoration: InputDecoration(labelText: 'Url do Avatar'),
-                  onSaved: (value) => _formData['avatarUrl'] = value.toString(),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }
 
-  void addStringToBack() {
-    http
-        .post(
-      url,
-      body: json.encode(
-        {'word': _controller.text},
-      ),
-    )
-        .then((value) {
-      _controller.text = '';
-    });
-    final snackBar = SnackBar(
-        content: Text('A palavra foi gravada com sucesso!'),
-        action: SnackBarAction(
-            label: 'Dispensar',
-            onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            }));
+  void _doSignUp() {
+    final isValid = _form.currentState?.validate();
+    if (isValid == true) {
+      SigngUpService()
+        .signgUp(_emailInputController.text, _passwordInputController.text);
+    } else {
+    }
+    User newUser = User(
+      name: _nameInputController.text,
+      cpf: _cpfInputController.text,
+      id: _idInputController.text,
+      email: _emailInputController.text,
+      password: _passwordInputController.text,
+      funcao: _funcaoInputController.text,
+      avatarUrl: _avatarInputController.text,
+      keepOn: true,
+    );
+    
+    _saveUser(newUser);
+  }
+
+  void _saveUser(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      PreferenceKeys.activeUser,
+      json.encode(user.toJson()),
+    );
   }
 }

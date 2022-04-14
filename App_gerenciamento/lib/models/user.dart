@@ -41,4 +41,6 @@ class User {
     data['keepOn'] = this.keepOn;
     return data;
   }
+
+  
 }
