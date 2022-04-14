@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, deprecated_member_use
 
 import 'dart:convert';
 
@@ -49,48 +49,36 @@ class _loginPageState extends State<loginPage> {
                           TextFormField(
                             controller: _emailInputController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Email',
                               border: OutlineInputBorder(),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
                             controller: _passwordInputController,
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Password',
                               border: OutlineInputBorder(),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: RaisedButton(
-                              color: Color.fromARGB(255, 84, 163, 228),
+                              color: const Color.fromARGB(255, 84, 163, 228),
                               textColor: Colors.white,
                               onPressed: () {
                                 _doLogin();
-                                if (_emailInputController.text == 'gustavo' &&
-                                    _passwordInputController.text == '123') {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/home');
-                                } else if (_emailInputController.text ==
-                                        'gustavo wilker' &&
-                                    _passwordInputController.text == '1234') {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/performance');
-                                } else {
-                                  print('Login inválido');
-                                }
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(7),
-                                child: const SizedBox(
+                              child: const Padding(
+                                padding: EdgeInsets.all(7),
+                                child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
                                     'Entrar',
@@ -100,12 +88,12 @@ class _loginPageState extends State<loginPage> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           GestureDetector(
                             child: Container(
-                              child: Text(
+                              child: const Text(
                                 'Cadastre-se',
                                 textAlign: TextAlign.center,
                               ),
@@ -153,13 +141,20 @@ class _loginPageState extends State<loginPage> {
   }
 
   void _doLogin() async {
-    String emailForm = this._emailInputController.text;
-    String passForm = this._passwordInputController.text;
+    String emailForm = _emailInputController.text;
+    String passForm = _passwordInputController.text;
 
     User savedUser = await _getSaveUser();
-    if (emailForm == savedUser.email && passForm == savedUser.password) {
+    if (emailForm == savedUser.email &&
+        passForm == savedUser.password &&
+        savedUser.funcao == 'Gerente') {
       LoginService().login(emailForm, passForm);
       Navigator.of(context).pushReplacementNamed('/performance');
+    } else if (emailForm == savedUser.email &&
+        passForm == savedUser.password &&
+        savedUser.funcao == 'Colaborador') {
+      LoginService().login(emailForm, passForm);
+      Navigator.of(context).pushReplacementNamed('/home');
     } else {
       print("FALHA NO LOGIN");
     }
