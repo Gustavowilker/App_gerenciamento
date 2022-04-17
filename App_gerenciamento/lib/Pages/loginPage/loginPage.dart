@@ -23,6 +23,8 @@ class _loginPageState extends State<loginPage> {
   static _loginPageState instance = _loginPageState();
   TextEditingController _emailInputController = TextEditingController();
   TextEditingController _passwordInputController = TextEditingController();
+  bool continueConnected = false;
+  final _formKey = GlobalKey<FormState>();
 
   Widget _body() {
     return SingleChildScrollView(
@@ -44,68 +46,86 @@ class _loginPageState extends State<loginPage> {
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: _emailInputController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              border: OutlineInputBorder(),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                                controller: _emailInputController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Digite um email';
+                                  } else if (value.length < 6) {
+                                    return 'Email pequeno, não?!';
+                                  } else if (!value.contains('@')) {
+                                    return 'Esse e-mail parece estranho, não?';
+                                  }
+                                  return null;
+                                }),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: _passwordInputController,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Password',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                              color: const Color.fromARGB(255, 84, 163, 228),
-                              textColor: Colors.white,
-                              onPressed: () {
-                                _doLogin();
+                            TextFormField(
+                              controller: _passwordInputController,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                labelText: 'Password',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (_passwordInputController.text.length < 6) {
+                                  return 'A senha deve ter pelo menos 6 caracteres';
+                                }
+                                return null;
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.all(7),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Text(
-                                    'Entrar',
-                                    textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                color: const Color.fromARGB(255, 84, 163, 228),
+                                textColor: Colors.white,
+                                onPressed: () {
+                                  _doLogin();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(7),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Text(
+                                      'Entrar',
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          GestureDetector(
-                            child: Container(
-                              child: const Text(
-                                'Cadastre-se',
-                                textAlign: TextAlign.center,
-                              ),
+                            const SizedBox(
+                              height: 10,
                             ),
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return cadastre();
-                              }));
-                            },
-                          ),
-                        ],
+                            GestureDetector(
+                              child: Container(
+                                child: const Text(
+                                  'Cadastre-se',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return cadastre();
+                                }));
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -144,13 +164,17 @@ class _loginPageState extends State<loginPage> {
     String emailForm = _emailInputController.text;
     String passForm = _passwordInputController.text;
 
+    final isValid = _formKey.currentState?.validate();
+
     User savedUser = await _getSaveUser();
-    if (emailForm == savedUser.email &&
+    if (isValid == true &&
+        emailForm == savedUser.email &&
         passForm == savedUser.password &&
         savedUser.funcao == 'Gerente') {
       LoginService().login(emailForm, passForm);
       Navigator.of(context).pushReplacementNamed('/performance');
-    } else if (emailForm == savedUser.email &&
+    } else if (isValid == true &&
+        emailForm == savedUser.email &&
         passForm == savedUser.password &&
         savedUser.funcao == 'Colaborador') {
       LoginService().login(emailForm, passForm);

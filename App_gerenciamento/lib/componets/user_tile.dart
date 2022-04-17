@@ -23,17 +23,8 @@ class UserTile extends StatelessWidget {
       trailing: SizedBox(
         width: 100,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  AppRoutes.CADASTRE,
-                  arguments: user,
-                );
-              },
-              icon: const Icon(Icons.edit),
-              color: Colors.orange,
-            ),
             IconButton(
               onPressed: () {
                 showDialog(

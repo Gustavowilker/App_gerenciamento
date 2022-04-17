@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/avisoGerentePage.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/page_usuarios.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/tarefas_gerente.dart';
-import 'package:flutter_application_1/Pages/PagesUser/Tarefas_page.dart';
 import 'package:flutter_application_1/Pages/loginPage/loginPage.dart';
-import 'package:flutter_application_1/values/preferences_key.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class performancePage extends StatefulWidget {

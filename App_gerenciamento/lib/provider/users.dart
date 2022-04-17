@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/dummy_users.dart';
 import 'package:flutter_application_1/models/user.dart';

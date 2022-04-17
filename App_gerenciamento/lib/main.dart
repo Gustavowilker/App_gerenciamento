@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Pages/PagesGerente/performance.dart';
 import 'package:flutter_application_1/Pages/PagesUser/home_page.dart';
 import 'package:flutter_application_1/Pages/loginPage/cadastre.dart';
+import 'package:flutter_application_1/provider/avisos.dart';
 import 'package:flutter_application_1/provider/users.dart';
 import 'package:flutter_application_1/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => Users(),
-        )
+        ChangeNotifierProvider(create: (context) => Users()),
+        ChangeNotifierProvider(create: (context) => Avisoss()),
+        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

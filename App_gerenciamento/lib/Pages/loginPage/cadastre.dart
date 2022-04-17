@@ -53,23 +53,7 @@ class _cadastreState extends State<cadastre> {
           actions: <Widget>[
             IconButton(
                 onPressed: () {
-                  _doSignUp();
-                  final isValid = _form.currentState?.validate();
-                  if (isValid == true) {
-                    _form.currentState?.save();
-                    Provider.of<Users>(context, listen: false).put(
-                      User(
-                          id: _formData['matricula'],
-                          name: _formData['name'],
-                          email: _formData['email'],
-                          cpf: _formData['cpf'],
-                          funcao: _formData['funcao'],
-                          password: _formData['password'],
-                          avatarUrl: _formData['avatarUrl']),
-                    );
-
-                    Navigator.of(context).pop();
-                  }
+                  _doSignUp();                  
                 },
                 icon: Icon(Icons.save))
           ],
@@ -189,9 +173,22 @@ class _cadastreState extends State<cadastre> {
     if (isValid == true) {
       SigngUpService()
         .signgUp(_emailInputController.text, _passwordInputController.text);
-    } else {
-    }
-    User newUser = User(
+
+        _form.currentState?.save();
+                    Provider.of<Users>(context, listen: false).put(
+                      User(
+                          id: _formData['matricula'],
+                          name: _formData['name'],
+                          email: _formData['email'],
+                          cpf: _formData['cpf'],
+                          funcao: _formData['funcao'],
+                          password: _formData['password'],
+                          avatarUrl: _formData['avatarUrl']),
+                    );
+
+                      Navigator.of(context).pop();
+
+      User newUser = User(
       name: _nameInputController.text,
       cpf: _cpfInputController.text,
       id: _idInputController.text,
@@ -200,9 +197,13 @@ class _cadastreState extends State<cadastre> {
       funcao: _funcaoInputController.text,
       avatarUrl: _avatarInputController.text,
       keepOn: true,
-    );
+     );
+      _saveUser(newUser);
+    } 
     
-    _saveUser(newUser);
+    
+    
+    
   }
 
   void _saveUser(User user) async {

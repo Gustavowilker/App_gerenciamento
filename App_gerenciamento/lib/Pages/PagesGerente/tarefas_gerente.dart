@@ -14,7 +14,7 @@ class _TarefasGerenteState extends State<TarefasGerente> {
   @override
   List<String> listStrings = <String>[];
   Uri url = Uri.https(
-      'app-gerenciamento-32e98-default-rtdb.firebaseio.com', '/words.json');
+      'gerenciapp-d4ff3-default-rtdb.firebaseio.com', '/Terefas.json');
   TextEditingController _controller = TextEditingController();
   bool _isLoading = false;
 
@@ -24,31 +24,69 @@ class _TarefasGerenteState extends State<TarefasGerente> {
       appBar: AppBar(
         title: Text('Tarefas'),
       ),
-      body: Center(
-        child: (_isLoading)
-            ? CircularProgressIndicator()
-            : RefreshIndicator(
-                onRefresh: (() => _getInformationFromBack()),
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      controller: _controller,
-                      decoration:
-                          InputDecoration(labelText: 'Insira uma tarefa aqui:'),
-                      textAlign: TextAlign.center,
-                    ),
-                    ElevatedButton(
-                      onPressed: () => addStringToBack(),
-                      child: Text('Enviar Tarefa:'),
-                    ),
-                    for (String s in listStrings)
-                      Text(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 10),
+          child: Column(
+            children: [
+              Center(
+                child: (_isLoading)
+                    ? CircularProgressIndicator()
+                    : RefreshIndicator(
+                        onRefresh: (() => _getInformationFromBack()),
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            TextFormField(
+                              controller: _controller,
+                              decoration: const InputDecoration(
+                                  labelText: 'Insira uma tarefa aqui:',
+                                  border: OutlineInputBorder()),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 10, bottom: 15),
+                              child: ElevatedButton(
+                                onPressed: () => addStringToBack(),
+                                child: Text('Enviar Tarefa:'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+              for (String s in listStrings)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.grey,
+                    child: ListTile(
+                      textColor: Colors.white,
+                      title: Text(
+                        'Tarefa',
+                        textAlign: TextAlign.center,
+                      ),
+                      subtitle: Text(
                         s,
                         textAlign: TextAlign.center,
-                      )
-                  ],
-                ),
-              ),
+                      ),
+                      trailing: SizedBox(
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+            ],
+          ),
+        ),
       ),
     );
   }
