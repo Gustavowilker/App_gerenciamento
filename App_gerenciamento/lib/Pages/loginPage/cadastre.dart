@@ -27,7 +27,7 @@ class _cadastreState extends State<cadastre> {
   final _form = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
   Uri url = Uri.https(
-      'app-gerenciamento-32e98-default-rtdb.firebaseio.com', '/words.json');
+      'gerenciapp2-default-rtdb.firebaseio.com', '/words.json');
 
   void _loadFormData(User user) {
     _formData['matricula'] = user.id.toString();

@@ -14,7 +14,7 @@ class _TarefasState extends State<Tarefas> {
   @override
   List<String> listStrings = <String>[];
   Uri url = Uri.https(
-      'gerenciapp-d4ff3-default-rtdb.firebaseio.com', '/Terefas.json');
+      'gerenciapp2-default-rtdb.firebaseio.com', '/Terefas.json');
   TextEditingController _controller = TextEditingController();
   bool _isLoading = false;
 

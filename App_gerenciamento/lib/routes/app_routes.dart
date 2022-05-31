@@ -4,6 +4,6 @@ class AppRoutes {
   static const PERFORMANCE = '/performance';
   static const CADASTRE = '/cadastre';
   static const urlSignUp =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyALWRM6_BzDWZf5QtZA6kQY41VpVWFBTC4';
-  static const login = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyALWRM6_BzDWZf5QtZA6kQY41VpVWFBTC4';
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBAkI_temsd9ppDwAyn_ivbEgs8yjctMX4';
+  static const login = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBAkI_temsd9ppDwAyn_ivbEgs8yjctMX4';
 }

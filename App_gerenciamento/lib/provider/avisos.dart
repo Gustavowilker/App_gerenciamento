@@ -5,7 +5,7 @@ import 'package:flutter_application_1/models/message_model.dart';
 
 class Avisoss with ChangeNotifier {
   Uri url =
-      Uri.https('gerenciapp-d4ff3-default-rtdb.firebaseio.com', '/Avisos.json');
+      Uri.https('gerenciapp2-default-rtdb.firebaseio.com', '/Avisos.json');
   Map<String, dynamic> listStrings = {};
   Map<String, dynamic> map = {};
 

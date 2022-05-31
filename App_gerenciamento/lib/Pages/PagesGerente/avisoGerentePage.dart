@@ -13,11 +13,11 @@ class avisoGerentePage extends StatefulWidget {
   @override
   State<avisoGerentePage> createState() => _avisoGerentePageState();
 }
-
+ 
 class _avisoGerentePageState extends State<avisoGerentePage> {
   List<String> listStrings = <String>[];
   Uri url =
-      Uri.https('gerenciapp-d4ff3-default-rtdb.firebaseio.com', '/Avisos.json');
+      Uri.https('gerenciapp2-default-rtdb.firebaseio.com', '/Avisos.json');
   TextEditingController _controller = TextEditingController();
   bool _isLoading = false;
 
